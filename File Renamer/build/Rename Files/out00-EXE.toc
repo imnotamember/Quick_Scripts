@@ -1,0 +1,9 @@
+('c:\\Users\\Joshua\\PycharmProjects\\Quick Scripts\\Rename Files\\dist\\Rename Files.exe',
+ False,
+ False,
+ None,
+ None,
+ [],
+ None,
+ False,
+ 1441603796L)
