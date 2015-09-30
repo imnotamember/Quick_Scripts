@@ -45,6 +45,7 @@ pl_male = gender_list(pl, 'male')
 print pl_female
 print pl_male
 '''
+"""
 import popfaces as pf
 import RandNoRep as rnr
 
@@ -117,3 +118,51 @@ def jumble(count):
     return a
 
 print jumble(counter)
+"""
+import random as ran
+
+def check_list(in_list):
+    temp_list = list(in_list)
+    ran.shuffle(temp_list)
+    lookback_list = []
+    cc = 0
+    ci = 0
+    ic = 0
+    ii = 0
+    for i in range(len(temp_list) - 1):
+        combo = list((temp_list[i], temp_list[i + 1]))
+        print combo
+        if combo == ['C', 'C']:
+            cc += 1
+            if cc > 10 and i < 39:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+        elif combo == ['C', 'I']:
+            ci += 1
+            if ci > 10 and i < 39:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+        elif combo == ['I', 'C']:
+            ic += 1
+            if ic > 10 and i < 39:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+        elif combo == ['I', 'I']:
+            ii += 1
+            if ii > 10 and i < 39:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+        else:
+            print "ERRRORORORS"
+            return i
+        #lookback_list.append(temp_list.pop(0))
+        #print lookback_list
+    #out_list = list(lookback_list)
+    out_list = [cc,ci,ic,ii]
+    return out_list
+
+congruent_list = (['C'] * 21) + (['I'] * 20)
+print congruent_list
+# ran.shuffle(congruent_list)
+print congruent_list
+print check_list(congruent_list)
