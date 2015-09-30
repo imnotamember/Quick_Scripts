@@ -45,7 +45,7 @@ pl_male = gender_list(pl, 'male')
 print pl_female
 print pl_male
 '''
-"""
+import random as ran
 import popfaces as pf
 import RandNoRep as rnr
 
@@ -65,7 +65,7 @@ def gender(gender_mf):
         g_list.append(person)
     return g_list
 
-def emotion(emotion):
+def emotion(emotions):
     e_list = []
     for i in range(2):
         if i == 0:
@@ -73,11 +73,11 @@ def emotion(emotion):
         else:
             person_list = gender('female')
         for person in person_list:
-            person.emotion = emotion
+            person.emotion = emotions
             e_list.append(person)
     return e_list
 
-def congruent(contiguity):
+def congruent(congruency):
     c_list = []
     for i in range(2):
         if i == 0:
@@ -85,16 +85,16 @@ def congruent(contiguity):
         else:
             person_list = emotion('sad')
         for person in person_list:
-            person.contiguous = contiguity
+            person.congruent = congruency
             c_list.append(person)
     return c_list
 
 def create_list():
-    cont_list = congruent(True)
-    noncont_list = congruent(False)
-    total_list = cont_list + noncont_list
-    for i in total_list:
-        i.who_is_this()
+    cong_list = congruent(True)
+    noncong_list = congruent(False)
+    total_list = cong_list + noncong_list
+    # for i in total_list:
+    #     i.who_is_this()
     print len(total_list)
     return total_list
 
@@ -117,9 +117,8 @@ def jumble(count):
     print 'yay, this took %s tries' % count
     return a
 
-print jumble(counter)
-"""
-import random as ran
+person_list = jumble(counter)
+
 
 def check_list(in_list):
     temp_list = list(in_list)
@@ -130,39 +129,84 @@ def check_list(in_list):
     ic = 0
     ii = 0
     for i in range(len(temp_list) - 1):
-        combo = list((temp_list[i], temp_list[i + 1]))
-        print combo
-        if combo == ['C', 'C']:
-            cc += 1
-            if cc > 10 and i < 39:
-                move_item = temp_list.pop(i+1)
-                temp_list.append(move_item)
-        elif combo == ['C', 'I']:
-            ci += 1
-            if ci > 10 and i < 39:
-                move_item = temp_list.pop(i+1)
-                temp_list.append(move_item)
-        elif combo == ['I', 'C']:
-            ic += 1
-            if ic > 10 and i < 39:
-                move_item = temp_list.pop(i+1)
-                temp_list.append(move_item)
-        elif combo == ['I', 'I']:
-            ii += 1
-            if ii > 10 and i < 39:
-                move_item = temp_list.pop(i+1)
-                temp_list.append(move_item)
-        else:
-            print "ERRRORORORS"
-            return i
-        #lookback_list.append(temp_list.pop(0))
-        #print lookback_list
-    #out_list = list(lookback_list)
+        temp_list, cc, ci, ic, ii, i = combo_check(temp_list, cc, ci, ic, ii, i)
+        if i == 100:
+            return check_list(temp_list)
     out_list = [cc,ci,ic,ii]
-    return out_list
+    if out_list != [10, 10, 10, 10]:
+        return check_list(temp_list)
+    return out_list, temp_list
 
-congruent_list = (['C'] * 21) + (['I'] * 20)
-print congruent_list
-# ran.shuffle(congruent_list)
-print congruent_list
-print check_list(congruent_list)
+
+def combo_check(temp_list, cc, ci, ic, ii, i):
+    combo = list((temp_list[i], temp_list[i + 1]))
+    if combo == [True, True]:
+        cc += 1
+        if cc > 10:
+            if i < 40:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+                cc -= 1
+                combo_check(temp_list, cc, ci, ic, ii, i)
+                return temp_list, cc, ci, ic, ii, i
+            else:
+                i = 100
+    elif combo == [True, False]:
+        ci += 1
+        if ci > 10:
+            if i < 40:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+                ci -= 1
+                combo_check(temp_list, cc, ci, ic, ii, i)
+                return temp_list, cc, ci, ic, ii, i
+            else:
+                i = 100
+    elif combo == [False, True]:
+        ic += 1
+        if ic > 10:
+            if i < 40:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+                ic -= 1
+                combo_check(temp_list, cc, ci, ic, ii, i)
+                return temp_list, cc, ci, ic, ii, i
+            else:
+                i = 100
+    elif combo == [False, False]:
+        ii += 1
+        if ii > 10:
+            if i < 40:
+                move_item = temp_list.pop(i+1)
+                temp_list.append(move_item)
+                ii -= 1
+                combo_check(temp_list, cc, ci, ic, ii, i)
+                return temp_list, cc, ci, ic, ii, i
+            else:
+                i = 100
+    else:
+        print "ERRRORORORS"
+        return i
+    return temp_list, cc, ci, ic, ii, i
+
+congruent_list = ([True] * 21) + ([False] * 20)
+tries = 0
+while True:
+    try:
+        tries += 1
+        ch_list, con_list = check_list(congruent_list)
+        print 'This took %s tries' % tries
+        break
+    except:
+        pass
+print ch_list
+print con_list
+
+i = 0
+for person in person_list:
+    person.congruent = con_list[i]
+    i += 1
+f = []
+for person in person_list:
+    f.append(person.congruent)
+print f
