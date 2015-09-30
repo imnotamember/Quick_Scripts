@@ -1,50 +1,5 @@
 __author__ = 'Joshua Zosky'
 
-'''
-import RandNoRep as rnr
-
-import random
-
-a = range(100)
-print a
-b = rnr.random_no_replacement(a)
-print a
-print b
-
-people = range(5)
-women = list(people)
-men = list(people)
-emotion = ['happy', 'sad']
-
-list_a = rnr.random_no_replacement(women)
-list_a += rnr.random_no_replacement(men)
-'''
-'''
-import popfaces as pf
-
-
-def face_list():
-    person_list = []
-    for face_number in range(5):
-        person = pf.Person()
-        person.face = face_number + 1
-        person_list.append(person)
-        print person_list[face_number].face
-    return person_list
-
-def gender_list(person_list, gender):
-    temp_list = list(person_list)
-    for person in temp_list:
-        person.gender = gender
-        print person.gender
-    return temp_list
-
-pl = face_list()
-pl_female = gender_list(pl, 'female')
-pl_male = gender_list(pl, 'male')
-print pl_female
-print pl_male
-'''
 import random as ran
 import popfaces as pf
 import RandNoRep as rnr
