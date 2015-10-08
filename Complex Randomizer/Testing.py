@@ -56,7 +56,7 @@ def create_list():
 def jumble(count):
     count += 1
     lister = create_list()
-    print lister
+    # print lister
     a = rnr.random_no_replacement(lister)
     temp = None
     for i in range(len(a)):
@@ -64,16 +64,13 @@ def jumble(count):
             if a[i].face == temp.face:
                 if a[i].gender == temp.gender:
                     if a[i].emotion == temp.emotion:
-                        print "broken"
+                        # print "broken"
                         a = jumble(count)
                         return a
         # a[i].who_is_this()
         temp = a[i]
-    print 'yay, this took %s tries' % count
+    # print 'yay, this took %s tries' % count
     return a
-
-person_list = jumble(counter)
-
 
 def check_list(in_list):
     temp_list = list(in_list)
@@ -144,22 +141,80 @@ def combo_check(temp_list, cc, ci, ic, ii, i):
         return i
     return temp_list, cc, ci, ic, ii, i
 
+def list_mashup(congruency_list):
+    tries = 0
+    while True:
+        try:
+            tries += 1
+            ch_list, con_list = check_list(congruent_list)
+            print 'This took %s tries' % tries
+            return con_list
+        except:
+            pass
+
+append_list = []
 congruent_list = ([True] * 21) + ([False] * 20)
-tries = 0
-while True:
-    try:
-        tries += 1
-        ch_list, con_list = check_list(congruent_list)
-        print 'This took %s tries' % tries
-        break
-    except:
-        pass
-print ch_list
-print con_list
+temp_con_list = list_mashup(congruent_list)
+
+checker = [(temp_con_list[-2],temp_con_list[-1])]
+for item in temp_con_list:
+    append_list.append(item)
+append_list.pop()
+
+match = False
+if temp_con_list[-2] == True:
+    while match == False:
+        temp_con_list = list_mashup(congruent_list)
+        if temp_con_list[-2] == False:
+            match = True
+else:
+    while match == False:
+        temp_con_list = list_mashup(congruent_list)
+        if temp_con_list[-2] == True:
+            match = True
+
+checker.append((temp_con_list[-2],temp_con_list[-1]))
+for item in temp_con_list:
+    append_list.append(item)
+append_list.pop()
+
+congruent_list = ([True] * 20) + ([False] * 21)
+temp_con_list = list_mashup(congruent_list)
+
+checker.append((temp_con_list[-2],temp_con_list[-1]))
+for item in temp_con_list:
+    append_list.append(item)
+append_list.pop()
+
+match = False
+if temp_con_list[-2] == True:
+    while match == False:
+        temp_con_list = list_mashup(congruent_list)
+        if temp_con_list[-2] == False:
+            match = True
+else:
+    while match == False:
+        temp_con_list = list_mashup(congruent_list)
+        if temp_con_list[-2] == True:
+            match = True
+
+checker.append((temp_con_list[-2],temp_con_list[-1]))
+for item in temp_con_list:
+    append_list.append(item)
+append_list.pop()
+
+print append_list
+print 'True = %s' % append_list.count(True)
+print 'False = %s' % append_list.count(False)
+print checker
+person_list = jumble(counter)
+for i in range(3):
+    person_list.extend(jumble(counter))
+print len(person_list)
 
 i = 0
 for person in person_list:
-    person.congruent = con_list[i]
+    person.congruent = append_list[i]
     i += 1
 f = []
 for person in person_list:
