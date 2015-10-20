@@ -61,12 +61,12 @@ def jumble(count):
     temp = None
     for i in range(len(a)):
         if i > 0:
+            #if a[i].emotion == temp.emotion:
             if a[i].face == temp.face:
                 if a[i].gender == temp.gender:
-                    if a[i].emotion == temp.emotion:
-                        # print "broken"
-                        a = jumble(count)
-                        return a
+                    # print "broken"
+                    a = jumble(count)
+                    return a
         # a[i].who_is_this()
         temp = a[i]
     # print 'yay, this took %s tries' % count
@@ -208,6 +208,25 @@ print 'True = %s' % append_list.count(True)
 print 'False = %s' % append_list.count(False)
 print checker
 person_list = jumble(counter)
+
+'''
+def repeator(person_list1):
+    for i in range(3):
+        person_list1.extend(jumble(counter))
+        for i in range(len(person_list1)):
+            if i > 0:
+                if person_list1[i].face == person_list1[i-1].face:
+                    if person_list1[i].gender == person_list1[i-1].gender:
+                        a = repeator(person_list1)
+                        print 'broked'
+                        return a
+    return person_list1
+for i in range(100):
+    try:
+        person_list = repeator(person_list)
+    except:
+        pass
+    '''
 for i in range(3):
     person_list.extend(jumble(counter))
 print len(person_list)
@@ -219,4 +238,11 @@ for person in person_list:
 f = []
 for person in person_list:
     f.append(person.congruent)
+    print "%s:%s" % (person.gender, person.face)
 print f
+
+for i in range(len(person_list)):
+    if i > 0:
+        if person_list[i].face == person_list[i-1].face:
+            if person_list[i].gender == person_list[i-1].gender:
+                print "repeat!"
